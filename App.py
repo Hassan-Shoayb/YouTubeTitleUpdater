@@ -1,5 +1,6 @@
 import os
 import pickle
+import time
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
@@ -72,14 +73,17 @@ def update_video_title(video_id):
 
     print(f"Updated title to: {updated_title}")
 
-# Run the script to update video title every time it is triggered by GitHub Actions
 if __name__ == "__main__":
     # Replace with your YouTube video ID
     VIDEO_ID = "eSEXbSaydqI"
-    
-    # Run the update video title function
-    try:
-        update_video_title(VIDEO_ID)
-        print("Title updated.")
-    except Exception as e:
-        print(f"An error occurred: {e}")
+
+    # Run the script to update video title every 1 hour (3600 seconds)
+    while True:
+        try:
+            update_video_title(VIDEO_ID)
+            print("Title updated. Waiting for the next update...")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+        
+        # Wait 10 minutes before the next update (600 seconds)
+        time.sleep(600)
